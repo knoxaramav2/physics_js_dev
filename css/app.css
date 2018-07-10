@@ -1,0 +1,36 @@
+body {
+    background-color:darkgray;
+    min-width: 400px;
+    min-height: 320px;
+}
+
+#canvas{
+    background-color: lightgrey;
+    border: 2px solid black;
+}
+
+#bottom-bar{
+    height: 50px;
+    border: 3px inset lightgray;
+}
+
+.bottom-bar-item{
+    height:40px;
+    margin:5px;
+    width:80px;
+}
+
+#side-bar{
+    width: 90px;
+    float: left;
+    height: 100%;
+}
+
+.side-bar-item{
+    width: 90%;
+    height: 30px;
+}
+
+button{
+    height: 30px;
+}

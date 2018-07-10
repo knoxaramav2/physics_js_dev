@@ -1,0 +1,61 @@
+<header>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel='stylesheet' type='text/css' href='css/app.css'>
+</header>
+
+<body onload='start();'>
+    <div id='side-bar'>
+        <span>'Instruments'</span>
+
+        <button class='side-bar-item'>Boomstick</button>
+        <button class='side-bar-item' id='pauseButton' onclick='togglePause(this);'>Pause</button>
+    </div>
+    <div>
+        <div>
+            <canvas id='canvas' width='300' height='300'>
+                Canvas not supported on... NodeJs? Hmm.
+            </canvas>
+        </div>
+        <div id='bottom-bar'>
+
+        </div>
+    </div>
+</body>
+
+<script>
+    const vector = require('./scripts/vector');
+    const collider = require('./scripts/collider');
+    const entity = require('./scripts/entity');
+    const physics = require('./scripts/physics');
+
+    function start(){
+        engine = new physics();
+        engine.setWorldSize(300, 300);
+
+        spawnObjects();
+
+        engine.start();
+    }
+
+    function togglePause(button){
+        console.log(button);
+        button.textContent = engine.togglePause() ? 'Start' : 'Pause';
+    }
+
+    function spawnObjects(){
+        obj = new entity.Rectangle(20, 30, 150, 150, 0);
+        obj.setColor('blue');
+        engine.addObject(obj);
+
+        obj = new entity.Rectangle(300, 1, 0, 149, 0, false);
+        obj.setColor('white');
+        engine.addObject(obj);
+
+        obj = new entity.Rectangle(1, 300, 149, 0, 0, false);
+        obj.setColor('white');
+        engine.addObject(obj);
+    }
+
+</script>

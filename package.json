@@ -1,0 +1,21 @@
+{
+  "name": "electron-test",
+  "version": "1.0.0",
+  "description": "test app for electron",
+  "main": "main.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "electron ."
+  },
+  "author": "knox",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^2.0.2",
+    "electron-packager": "^12.1.0"
+  },
+  "dependencies": {
+    "electromon": "^1.0.10",
+    "express": "^4.16.3",
+    "mocha": "^5.2.0"
+  }
+}
