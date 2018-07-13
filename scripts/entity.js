@@ -90,9 +90,18 @@ class Entity extends collider.Collider{
         }
     }
 
+    setRotate(angle){
+        this.angle = AngleToRadian(angle);
+    }
+
     translate(dx, dy){
         this.xLoc += dx;
         this.yLoc += dy;
+    }
+
+    setPosition(x, y){
+        this.xLoc = x;
+        this.yLoc = y;
     }
 
     toString(){

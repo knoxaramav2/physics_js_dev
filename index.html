@@ -25,16 +25,21 @@
 </body>
 
 <script>
+    const control = require('./scripts/control');
     const vector = require('./scripts/vector');
     const collider = require('./scripts/collider');
     const entity = require('./scripts/entity');
     const physics = require('./scripts/physics');
 
     function start(){
+        controller = new control();
         engine = new physics();
         engine.setWorldSize(300, 300);
 
+        canvas = document.getElementById('canvas');
+
         spawnObjects();
+        engine.setCallback(callback);
 
         engine.start();
     }
@@ -45,15 +50,12 @@
     }
 
     function spawnObjects(){
-        obj = new entity.Rectangle(20, 30, 150, 150, 0);
-        obj.setColor('#000');
+        //obj = new entity.Rectangle(20, 30, 150, 150, 0);
+        //obj.setColor('#000');
+        obj = new entity.Polygon(
+    [[0,0], [7, 10], [0, 20], [10,15], [20, 20], [10, 13], [20, 0], [10,7]], 
+            0, 0, 0);
         engine.addObject(obj);
-
-        console.log(obj.toString());
-        obj.rotate(0);        
-        console.log(obj.toString());
-        obj.rotate(45);
-        console.log(obj.toString());
 
         obj = new entity.Rectangle(300, 1, 0, 149, 0, false);
         obj.setColor('white');
@@ -62,6 +64,11 @@
         obj = new entity.Rectangle(1, 300, 149, 0, 0, false);
         obj.setColor('white');
         engine.addObject(obj);
+    }
+
+    function callback(){
+        let mpos = controller.getMouse();
+        engine.objects[0].setPosition(mpos.x, mpos.y);
     }
 
 </script>

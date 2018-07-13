@@ -21,6 +21,9 @@ module.exports = class {
 
         //graphics
         this.ctx = document.getElementById('canvas').getContext('2d');
+    
+        //controllable
+        this.callback = null;
     }
 
     start(){
@@ -66,7 +69,7 @@ module.exports = class {
         this.objects[0].setColor(clr);
 
         //this.objects[0].translate(5 * this.deltaT, 0);
-        this.objects[0].rotate(20 * this.deltaT);
+        this.objects[0].rotate(500 * this.deltaT);
         //console.log(this.objects[0].toString());
     }
 
@@ -83,6 +86,9 @@ module.exports = class {
     loop(curr_time_stamp){        
         if (!this.isPaused){
             this.deltaT = (curr_time_stamp - this.timestamp) / 1000;
+            if(this.callback !== null){
+                this.callback();
+            }
             this.update();
             this.draw(this.ctx);
         }
@@ -90,6 +96,14 @@ module.exports = class {
         this.timestamp = curr_time_stamp;
 
         window.requestAnimationFrame(this.loop.bind(this));
+    }
+
+    setCallback(fnc){
+        if (typeof(fnc) !== 'function'){
+            throw 'Callback must be function';
+        }
+
+        this.callback = fnc;
     }
 
 };
