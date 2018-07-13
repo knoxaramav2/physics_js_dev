@@ -46,8 +46,14 @@
 
     function spawnObjects(){
         obj = new entity.Rectangle(20, 30, 150, 150, 0);
-        obj.setColor('blue');
+        obj.setColor('#000');
         engine.addObject(obj);
+
+        console.log(obj.toString());
+        obj.rotate(0);        
+        console.log(obj.toString());
+        obj.rotate(45);
+        console.log(obj.toString());
 
         obj = new entity.Rectangle(300, 1, 0, 149, 0, false);
         obj.setColor('white');

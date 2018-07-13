@@ -57,12 +57,26 @@ module.exports = class {
     }
 
     update(){
-        this.objects[0].rotate(360 * this.deltaT);
+        //this.objects[0].rotate(360 * this.deltaT);
+        let clr = this.objects[0].color;
+        let clrn = parseInt(clr.substr(1), 16);
+        clrn = clrn > 0xFFF ? 0 : clrn+2;
+        clr = clrn.toString(16);
+        clr = '#' + '000'.substr(0, 3 - clr.length) + clr;
+        this.objects[0].setColor(clr);
+
+        //this.objects[0].translate(5 * this.deltaT, 0);
+        this.objects[0].rotate(20 * this.deltaT);
+        //console.log(this.objects[0].toString());
     }
 
     draw(ctx){
+
+        ctx.clearRect(0, 0, this.world_width, this.world_height);
+
         this.objects.forEach(function(e){
             e.render(ctx);
+            ctx.restore();
         });
     }
 

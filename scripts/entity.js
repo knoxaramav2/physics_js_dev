@@ -1,13 +1,15 @@
+RadianToAngle = function(radian){
+    return (180 * radian) / Math.PI
+}
+
 AngleToRadian = function(angle){
     return (angle * Math.PI)/180;
 }
 
-GetRotatedPoint = function(vertice, origin, angle){
-    magnitude = Math.sqrt(Math.pow(vertice[0], 2) + Math.pow(vertice[1], 2));
-    ax = Math.cos(AngleToRadian(angle)) * vertice[0];
-    ay = Math.sin(AngleToRadian(angle)) * vertice[1];
-    console.log(ax, ay, magnitude, vertice, origin);
-    return [ax + origin[0], ay + origin[1]];
+GetRotatedPoint = function(vertice, angle){
+    let xp = (vertice[0]*Math.cos(angle)) - (vertice[1] * Math.sin(angle));
+    let yp = (vertice[1]*Math.cos(angle)) + (vertice[0] * Math.sin(angle));
+    return [xp, yp];
 }
 
 GetMagnitude = function(origin, vertice){
@@ -22,6 +24,7 @@ module.exports.GetMagnitude = GetMagnitude;
 
 const collider = require('./collider');
 
+const TAU = Math.PI * 2;
 
 class Entity extends collider.Collider{
 
@@ -29,7 +32,7 @@ class Entity extends collider.Collider{
         super(x, y);
         this.vertices = vertices;
         this.angle = angle;
-        this.color = 'black';
+        this.color = '#ffffff';
 
         //readjust vertices so x,y in center of object
         if (normalizeVertice){
@@ -40,13 +43,13 @@ class Entity extends collider.Collider{
             vertices.forEach(v => {
                 ax += v[0];
                 ay += v[1];
-                console.log(ax + ' ' + ay);
+                //console.log(ax + ' ' + ay);
             });
 
             ax /= vertices.length;
             ay /= vertices.length;
 
-            console.log(ax + ' ' + ay);
+            //console.log(ax + ' ' + ay);
 
             vertices.forEach(v => {
                 v[0] -= ax;
@@ -59,15 +62,12 @@ class Entity extends collider.Collider{
         let v = this.vertices;
 
         ctx.beginPath();
-        //let p = GetRotatedPoint(v[0], [this.xLoc, this.yLoc], this.angle);
-        ctx.moveTo(v[0][0]+this.xLoc, v[0][1]+this.yLoc);
-        //ctx.moveTo(p[0], p[1]);
+        let vloc = GetRotatedPoint(v[0], this.angle);
+        ctx.moveTo(vloc[0]+this.xLoc, vloc[1]+this.yLoc);
 
         for(let i = 1; i < this.vertices.length; ++i){
-            ctx.lineTo(v[i][0]+this.xLoc, v[i][1]+this.yLoc);
-            console.log(AngleToRadian(this.angle));
-            //let p = GetRotatedPoint(v[i], [this.xLoc, this.yLoc], this.angle);
-            //ctx.lineTo(p[0], p[1]);
+            vloc = GetRotatedPoint(v[i], this.angle);
+            ctx.lineTo(vloc[0]+this.xLoc, vloc[1]+this.yLoc);
         }
 
         ctx.fillStyle = this.color;
@@ -79,13 +79,24 @@ class Entity extends collider.Collider{
     }
 
     rotate(dAngle){
-        this.angle += dAngle;
 
-        if (this.angle > 360){
-            this.angle -= 360;
+        let rad = AngleToRadian(dAngle);
+        this.angle += rad;
+
+        if (this.angle > TAU){
+            this.angle -= TAU;
         } else if (this.angle < 0){
-            this.angle += 360;
+            this.angle += TAU;
         }
+    }
+
+    translate(dx, dy){
+        this.xLoc += dx;
+        this.yLoc += dy;
+    }
+
+    toString(){
+        return JSON.stringify(this);
     }
 };
 
